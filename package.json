@@ -1,0 +1,32 @@
+{
+  "name": "finance-tracker",
+  "version": "1.0.0",
+  "description": "Personal Finance Tracker using TypeScript and Hexagonal Architecture",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "test": "jest --runInBand",
+    "test:watch": "jest --watch",
+    "clean": "rimraf dist"
+  },
+  "keywords": ["typescript", "hexagonal-architecture", "personal-finance"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.22",
+    "@types/jest": "^29.5.14",
+    "@types/node": "^20.17.24",
+    "@types/supertest": "^6.0.3",
+    "jest": "^29.7.0",
+    "rimraf": "^6.0.1",
+    "supertest": "^7.1.0",
+    "ts-jest": "^29.4.4",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.9.2"
+  }
+}
