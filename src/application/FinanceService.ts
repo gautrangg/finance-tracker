@@ -29,14 +29,48 @@ export class FinanceService
 
   // CreateTransactionUseCase implementation
   async execute(input: CreateTransactionInput): Promise<CreateTransactionOutput> {
-    // Implementation here: CreateTransactionUseCase
-    throw new Error('Not implemented');
+    //tạo transaction theo entity 
+    const transaction = Transaction.create({
+      id: `tx-${Date.now()}`,
+      amount: input.amount,
+      type: input.type,
+      categoryId: input.categoryId,
+      walletId: input.walletId,
+      description: input.description,
+      date: input.date || new Date(),
+      tags: input.tags || [],
+    });
+    //check validation của transaction
+    if(!transaction.isValid()) {
+      throw new Error('Invalid transaction data');
+    }
+    //lưu transaction vào repository
+    await this.transactionRepository.save(transaction);
+    return {
+      id: transaction.id,
+      amount: transaction.amount,
+      type: transaction.type,
+      categoryId: transaction.categoryId,
+      description: transaction.description,
+      date: transaction.date,
+      tags: transaction.tags,
+    };    
+    
   }
 
   // GetTransactionsUseCase implementation
   async getTransactions(): Promise<GetTransactionsOutput[]> {
-    // Implementation here
-    throw new Error('Not implemented');
+    const transactions = await this.transactionRepository.findAll();
+    return transactions.map(tx => ({
+      id: tx.id,
+      amount: tx.amount,
+      type: tx.type,
+      categoryId: tx.categoryId,
+      walletId: tx.walletId,
+      description: tx.description,
+      date: tx.date,
+      tags: tx.tags,
+    }));
   }
 
   // GetStatisticsUseCase implementation

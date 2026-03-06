@@ -4,6 +4,7 @@
  */
 
 export interface CreateTransactionInput {
+  id?: string;
   amount: number;
   type: 'income' | 'expense' | 'transfer';
   categoryId: string;
@@ -20,6 +21,7 @@ export interface CreateTransactionOutput {
   categoryId: string;
   description: string;
   date: Date;
+  tags: string[];
 }
 
 export interface CreateTransactionUseCase {

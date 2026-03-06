@@ -5,12 +5,18 @@
 
 import { TransactionRepository } from '../../ports/outbound/TransactionRepository';
 import { Transaction } from '../../domain/entities/Transaction';
+import { IdGenerator } from '../../ports/outbound/IdGenerator';
 
 export class InMemoryTransactionRepository implements TransactionRepository {
   private transactions: Map<string, Transaction> = new Map();
+  
+  constructor(private idGenarator?: IdGenerator) {}
 
   async save(transaction: Transaction): Promise<void> {
-    // Implementation here
+    if(!transaction.id) {
+      throw new Error('Transaction must have an id');
+    }
+    this.transactions.set(transaction.id, transaction);
   }
 
   async findById(id: string): Promise<Transaction | null> {
@@ -19,8 +25,7 @@ export class InMemoryTransactionRepository implements TransactionRepository {
   }
 
   async findAll(): Promise<Transaction[]> {
-    // Implementation here
-    return [];
+    return Array.from(this.transactions.values());
   }
 
   async findByWalletId(walletId: string): Promise<Transaction[]> {

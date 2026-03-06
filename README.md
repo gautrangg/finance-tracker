@@ -90,6 +90,18 @@ npm install
 npm test
 npm run build
 npm start
+
+Quick API test
+```bash
+curl -X POST http://localhost:3000/api/transactions \\
+  -H "Content-Type: application/json" \\
+  -d '{
+    "amount": 1000,
+    "type": "income",
+    "categoryId": "cat-1",
+    "description": "Monthly salary"
+  }'
+```
 ```
 
 ## Architecture

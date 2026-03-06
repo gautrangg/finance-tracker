@@ -2,7 +2,7 @@
  * APPLICATION LAYER - Data Transfer Object
  */
 
-export class CreateTransactionDTO {
+export class GetTransactionDTO {
   constructor(
     readonly id: string,
     readonly amount: number,
@@ -10,12 +10,8 @@ export class CreateTransactionDTO {
     readonly categoryId: string,
     readonly walletId: string,
     readonly description: string,
-    readonly date?: Date,
-    readonly tags?: string[],
+    readonly date: Date,
+    readonly tags: string[],
   ) {}
-
-  validate(): boolean {
-    return this.amount > 0 && this.description.trim().length > 0;
-  }
 }
 
