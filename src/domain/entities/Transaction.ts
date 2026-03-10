@@ -51,7 +51,7 @@ export class Transaction {
     return this.props.amount;
   }
 
-  get type(): string {
+  get type(): 'income' | 'expense' | 'transfer' {
     return this.props.type;
   }
 
@@ -75,8 +75,18 @@ export class Transaction {
     return this.props.tags || [];
   }
 
-  // Factory Method
-  static create(props: TransactionProps): Transaction {
-    return new Transaction(props);
+
+
+  static update(existing: Transaction, props: Partial<TransactionProps>): Transaction {
+    return new Transaction({
+      id: existing.id,
+      amount: props.amount ?? existing.amount,
+      type: props.type ?? existing.type,
+      categoryId: props.categoryId ?? existing.categoryId,
+      walletId: props.walletId ?? existing.walletId,
+      description: props.description ?? existing.description,
+      date: props.date ?? existing.date,
+      tags: props.tags ?? existing.tags,
+    });
   }
 }

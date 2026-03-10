@@ -20,8 +20,7 @@ export class InMemoryTransactionRepository implements TransactionRepository {
   }
 
   async findById(id: string): Promise<Transaction | null> {
-    // Implementation here
-    return null;
+    return this.transactions.get(id) || null; 
   }
 
   async findAll(): Promise<Transaction[]> {
@@ -39,7 +38,10 @@ export class InMemoryTransactionRepository implements TransactionRepository {
   }
 
   async update(transaction: Transaction): Promise<void> {
-    // Implementation here
+    if(!this.transactions.has(transaction.id)) {
+      throw new Error('Transaction not found');
+    }
+    this.transactions.set(transaction.id, transaction);
   }
 
   async delete(id: string): Promise<boolean> {
