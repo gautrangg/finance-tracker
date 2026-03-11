@@ -9,7 +9,7 @@ const port = process.env.PORT ? parseInt(process.env.PORT) : 3000;
 
 // Wire up dependencies
 const financeService = container.getFinanceService();
-const apiAdapter = new RestApiAdapter(financeService, financeService, financeService);
+const apiAdapter = new RestApiAdapter(financeService, financeService, financeService, financeService, financeService);
 
 // Start server
 apiAdapter.start(port);

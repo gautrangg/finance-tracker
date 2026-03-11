@@ -5,7 +5,7 @@
 export interface GetTransactionsOutput {
   id: string;
   amount: number;
-  type: string;
+  type: 'income' | 'expense' | 'transfer';
   categoryId: string;
   walletId: string;
   description: string;

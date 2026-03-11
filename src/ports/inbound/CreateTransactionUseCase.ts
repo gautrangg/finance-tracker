@@ -17,7 +17,7 @@ export interface CreateTransactionInput {
 export interface CreateTransactionOutput {
   id: string;
   amount: number;
-  type: string;
+  type: 'income' | 'expense' | 'transfer';
   categoryId: string;
   description: string;
   date: Date;

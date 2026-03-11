@@ -20,7 +20,11 @@ import {
   UpdateTransactionUseCase, 
   UpdateTransactionInput,
   UpdateTransactionOutput } from '../ports/inbound/UpdateTransactionUseCase';
-
+import {
+  DeleteTransactionUseCase,
+  DeleteTransactionInput,
+  DeleteTransactionOutput } from '../ports/inbound/DeleteTransactionUseCase';
+import { GetBalanceOuput } from '../ports/inbound/GetBalanceUseCase';
 export class FinanceService
   implements CreateTransactionUseCase, GetTransactionsUseCase, UpdateTransactionUseCase
 {
@@ -57,6 +61,9 @@ export class FinanceService
     if(!transaction.isValid()) {
       throw new Error('Invalid transaction data');
     }
+    if(!transaction.isExpense() && !transaction.isIncome()){
+      throw new Error('Type must be "income" or "expense"');
+    }
     //lưu transaction vào repository
     await this.transactionRepository.save(transaction);
     return {
@@ -88,9 +95,13 @@ export class FinanceService
 
   // GetStatisticsUseCase implementation
 
-  async deleteTransaction(id: string): Promise<boolean> {
-    // Additional use case
-    return false;
+  async deleteTransaction(input: DeleteTransactionInput): Promise<DeleteTransactionOutput> {
+    const exsisting = await this.transactionRepository.findById(input.id);
+    if(!exsisting){
+      return {success: false, message: 'Undefined transaction!'};
+    }
+    await this.transactionRepository.delete(input.id);
+    return {success: true, message: 'Delete transaction succesfully!'}
   }
 
   async updateTransaction(input: UpdateTransactionInput): Promise<UpdateTransactionOutput> {
@@ -126,5 +137,22 @@ export class FinanceService
       tags: updated.tags,
     }
   }
-  
+  async getBalance(): Promise<GetBalanceOuput>{
+      const transactions = await this.transactionRepository.findAll();
+      let totalIncome = 0;
+      let totalExpense = 0;
+      
+      for(const tx of transactions) {
+        if(tx.isIncome()){
+          totalIncome += tx.amount;
+        }
+        if(tx.isExpense()){
+          totalExpense += tx.amount;
+        }
+      }
+      return {totalIncome,
+              totalExpense,
+              balance: totalIncome - totalExpense
+  }
+  }
 }

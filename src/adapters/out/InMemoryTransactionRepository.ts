@@ -32,11 +32,6 @@ export class InMemoryTransactionRepository implements TransactionRepository {
     return [];
   }
 
-  async findByDateRange(startDate: Date, endDate: Date): Promise<Transaction[]> {
-    // Implementation here
-    return [];
-  }
-
   async update(transaction: Transaction): Promise<void> {
     if(!this.transactions.has(transaction.id)) {
       throw new Error('Transaction not found');
@@ -45,8 +40,11 @@ export class InMemoryTransactionRepository implements TransactionRepository {
   }
 
   async delete(id: string): Promise<boolean> {
-    // Implementation here
-    return false;
+    if(!this.transactions.has(id)){
+        return false;
+      }
+    this.transactions.delete(id);
+    return true;
   }
 
   async count(): Promise<number> {

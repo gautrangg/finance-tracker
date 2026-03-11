@@ -20,7 +20,7 @@ export class Transaction {
 
   // Business Logic - Pure Domain Rules
   isValid(): boolean {
-    return this.amount > 0 && this.description.trim().length > 0;
+    return this.props.amount > 0 && this.description.trim().length > 0;
   }
 
   isExpense(): boolean {
